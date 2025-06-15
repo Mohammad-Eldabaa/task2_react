@@ -1,19 +1,42 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useUserStore from "../store";
-import SearchBar from "./SearchBar";
 
-export default function SearchInput() {
+export default function SearchInputs() {
   const [value, setValue] = useState("");
-  const { getUser, getUsers } = useUserStore();
   const selectRef = useRef(null);
+  const {
+    searchingParam,
+    changeSearchParamId,
+    changeSearchParamEmail,
+    changeSearchParamPhone,
+    changeSearchParamName,
+  } = useUserStore();
 
-  const handleSearch = async (e) => {
-    if (value !== "") await getUser({ [selectRef.current.value]: value });
-    else await getUsers({ [selectRef.current.value]: value });
+  useEffect(() => {
+    console.log("Updated searchingParam:", searchingParam);
+  }, [searchingParam]);
+
+  const passingParam = (val) => {
+    switch (selectRef.current.value) {
+      case "id":
+        changeSearchParamId(val);
+        break;
+      case "phone":
+        changeSearchParamPhone(val);
+        break;
+      case "name":
+        changeSearchParamName(val);
+        break;
+      case "email":
+        changeSearchParamEmail(val);
+        break;
+
+      default:
+        return;
+    }
   };
-
   return (
-    <div style={styles.container1}>
+    <div>
       <select
         name="search pram"
         defaultValue={"name"}
@@ -28,14 +51,16 @@ export default function SearchInput() {
 
       <input
         type="text"
-        onChange={(e) => {
+        onChange={async (e) => {
           setValue(e.target.value);
+          passingParam(e.target.value);
+          console.log(searchingParam);
+          //   changeSearchParamPhone(e.target.value);
         }}
         value={value}
         placeholder={"Search...."}
         style={styles.input}
       />
-      <SearchBar searchClick={handleSearch} />
     </div>
   );
 }

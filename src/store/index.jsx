@@ -6,18 +6,47 @@ const useUserStore = create((set) => ({
   user: null,
   isLoading: false,
   hasError: false,
-  searching: false,
+  searchParamNumber: 1,
   searchingParam: {},
-  changeSerchState: () => set((state) => ({ searching: !state.searching })),
+  IncreaseSearchParamNumber: () =>
+    set((state) => {
+      if (state.searchParamNumber < 4) {
+        return { searchParamNumber: state.searchParamNumber + 1 };
+      }
+      return state;
+    }),
+  changeSearchParamId: (id) =>
+    set((state) => ({
+      searchingParam: { ...state.searchingParam, id },
+    })),
+
+  changeSearchParamEmail: (email) =>
+    set((state) => ({
+      searchingParam: { ...state.searchingParam, email },
+    })),
+
+  changeSearchParamPhone: (phone) =>
+    set((state) => ({
+      searchingParam: { ...state.searchingParam, phone },
+    })),
+
+  changeSearchParamName: (name) =>
+    set((state) => ({
+      searchingParam: { ...state.searchingParam, name },
+    })),
+
   getUsers: async () => {
     const result = await getAllusers();
     set({ users: result.data });
   },
+
   getUser: async (obj) => {
     const result = await getUser(obj);
-    set({ users: result.data });
-    set({ user: result.data[0] });
-    // console.log(result.data);
+    console.log(result);
+    set({
+      users: result.data,
+      user: result.data[0] || null,
+    });
   },
 }));
 

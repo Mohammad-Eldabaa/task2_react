@@ -9,5 +9,6 @@ export const getAllusers = async function () {
 
 export const getUser = async function (param) {
   const searchPram = qs.stringify(param);
+  console.log(searchPram);
   return await axios.get(`${URL}/users?${searchPram}`);
 };

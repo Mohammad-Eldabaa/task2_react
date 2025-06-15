@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import UserList from "../component/UserList";
 import SearchBar from "../component/SearchBar";
 import useUserStore from "../store";
-import SearchInput from "../component/SearchInput";
+import SearchContainer from "../component/SearchContainer";
 
 export default function HomePage() {
   // const [users, setUsers] = useState([]);
@@ -14,7 +14,7 @@ export default function HomePage() {
 
   return (
     <div>
-      <SearchInput />
+      <SearchContainer />
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {users.map((item) => (
           <UserList key={item.id} User={item} />
